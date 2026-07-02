@@ -2,28 +2,28 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { TEST_CATEGORIES, TIME_SLOTS } from "@/lib/utils";
+import {TEST_CATEGORIES,TIME_SLOTS} from "@/lib/utils";
 
 interface BookingForm {
-  patientName: string;
-  phone: string;
-  testType: string;
-  collectionType: string;
-  preferredDate: string;
-  preferredTime: string;
-  notes: string;
+  patientName:string;
+  phone:string;
+  testType:string;
+  collectionType:string;
+  preferredDate:string;
+  preferredTime:string;
+  notes:string;
 }
 
 export default function BookingSection() {
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<BookingForm>();
+  const { register,handleSubmit,reset,formState:{errors}} = useForm<BookingForm>();
 
-  const onSubmit = async (data: BookingForm) => {
+  const onSubmit = async (data:BookingForm) => {
     setLoading(true);
     try {
-      const res = await fetch("/api/appointments", {
+      const res = await fetch("/api/appointments",{
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json"},
         body: JSON.stringify(data),
       });
       if (res.ok) {
@@ -46,7 +46,6 @@ export default function BookingSection() {
           <p className="section-label">Book Appointment</p>
           <h2 className="section-title">Schedule a Test or Home Collection</h2>
         </div>
-
         <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
@@ -58,7 +57,6 @@ export default function BookingSection() {
               />
               {errors.patientName && <p className="text-red-500 text-xs mt-1">{errors.patientName.message}</p>}
             </div>
-
             <div>
               <label className="form-label">Phone Number *</label>
               <input
@@ -68,14 +66,12 @@ export default function BookingSection() {
               />
               {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
             </div>
-
             <div>
               <label className="form-label">Test Required *</label>
               <select {...register("testType", { required: true })} className="form-input">
                 {TEST_CATEGORIES.map((t) => <option key={t}>{t}</option>)}
               </select>
             </div>
-
             <div>
               <label className="form-label">Collection Type</label>
               <select {...register("collectionType")} className="form-input">
@@ -84,7 +80,6 @@ export default function BookingSection() {
                 <option value="lab2">Visit Lab — Rishikesh</option>
               </select>
             </div>
-
             <div>
               <label className="form-label">Preferred Date *</label>
               <input
@@ -94,14 +89,12 @@ export default function BookingSection() {
                 min={new Date().toISOString().split("T")[0]}
               />
             </div>
-
             <div>
               <label className="form-label">Preferred Time</label>
               <select {...register("preferredTime")} className="form-input">
                 {TIME_SLOTS.map((t) => <option key={t}>{t}</option>)}
               </select>
             </div>
-
             <div className="sm:col-span-2">
               <label className="form-label">Notes / Address (for home collection)</label>
               <textarea
@@ -112,7 +105,6 @@ export default function BookingSection() {
               />
             </div>
           </div>
-
           <button
             type="submit"
             disabled={loading}

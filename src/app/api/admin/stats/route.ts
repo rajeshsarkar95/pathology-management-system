@@ -3,7 +3,7 @@ import { connectDB } from "@/lib/db";
 import { Report } from "@/lib/models/Report";
 import { User } from "@/lib/models/User";
 import { Appointment } from "@/lib/models/Appointment";
-import { verifyToken, extractTokenFromHeader } from "@/lib/auth";
+import { verifyToken,extractTokenFromHeader} from "@/lib/auth";
 
 export async function GET(req:NextRequest){
   try {
@@ -15,12 +15,13 @@ export async function GET(req:NextRequest){
     }
     await connectDB();
     const today = new Date().toISOString().split("T")[0];
-    const [totalPatients, totalReports, pendingReports,todayAppointments] = await Promise.all([
+    const [totalPatients,totalReports,pendingReports,todayAppointments] = await Promise.all([
       User.countDocuments({role:"patient"}),
       Report.countDocuments(),
       Report.countDocuments({status:{$in:["pending","processing"]}}),
       Appointment.countDocuments({preferredDate:today}),
     ]);
+
     return NextResponse.json({
       success:true,
       data: {totalPatients,totalReports,pendingReports,todayAppointments},
