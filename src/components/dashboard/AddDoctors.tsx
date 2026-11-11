@@ -81,8 +81,6 @@ const EMPTY_FORM: DoctorFormData = {
 
 let avatarIndex = 0;
 
-// ── Helpers ────────────────────────────────────────────────────────────────────
-
 function getRawProp(raw: unknown, key: string): unknown {
   return (raw as Record<string, unknown>)[key];
 }
@@ -91,8 +89,6 @@ function getErrorMessage(err: unknown): string {
   if (err instanceof Error) return err.message;
   return String(err);
 }
-
-// ── Validation ─────────────────────────────────────────────────────────────────
 
 function validateForm(data: DoctorFormData):FormErrors{
   const errors: FormErrors = {};
@@ -117,15 +113,12 @@ function validateForm(data: DoctorFormData):FormErrors{
   return errors;
 }
 
-// ── API types ──────────────────────────────────────────────────────────────────
-
 interface ApiResponse<T> {
   success: boolean;
   data: T;
   message?: string;
 }
 
-// ── Normalizer ─────────────────────────────────────────────────────────────────
 
 function normalizeDoctor(raw: unknown): Doctor {
   return {
@@ -149,8 +142,6 @@ function normalizeDoctor(raw: unknown): Doctor {
       AVATAR_COLORS[avatarIndex++ % AVATAR_COLORS.length],
   };
 }
-
-// ── Small UI components ────────────────────────────────────────────────────────
 
 interface FieldProps {
   label:string;
@@ -329,8 +320,6 @@ const ErrorBanner: React.FC<{message:string;onDismiss:()=>void}> = ({message,onD
     </button>
   </div>
 );
-
-// ── Main component ─────────────────────────────────────────────────────────────
 
 function AddDoctors() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
