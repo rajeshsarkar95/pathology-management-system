@@ -338,8 +338,7 @@ function AddDoctors() {
   const [formData, setFormData] = useState<DoctorFormData>(EMPTY_FORM);
   const [errors, setErrors] = useState<FormErrors>({});
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterSpecialty, setFilterSpecialty] = useState<Specialty | "All">("All");
-
+  const [filterSpecialty, setFilterSpecialty] = useState<Specialty | "All">("All")
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);

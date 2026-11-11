@@ -2,20 +2,23 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
-import {LayoutDashboard,FileText,Clock,Calendar,LogOut,Activity,User} from "lucide-react";
+import {LayoutDashboard,FileText,Clock,Calendar,LogOut,Activity,User,Mouse} from "lucide-react";
 import {cn} from "@/lib/utils";
 import DashboardOverview from "@/components/dashboard/DashboardOverview";
 import ReportsList from "@/components/dashboard/ReportsList";
 import TestHistory from "@/components/dashboard/TestHistory";
 import AddDoctors  from "@/components/dashboard/AddDoctors";
-
-type DashView = "overview" | "reports" | "history" | "Doctor";
+import Patientregistration from "@/components/dashboard/Patientregistration";
+import HomeSampleCollection from "@/components/dashboard/Homesamplecollectionscheduling";
+type DashView = "overview" | "reports" | "history" | "Doctor" | "Patientregistration" | "HomeSampleCollection";
 
 const sidebarItems: {id:DashView;label:string;icon:React.ElementType}[] = [
   {id:"overview",label:"Overview",icon:LayoutDashboard},
   {id:"Doctor",label:"Doctor",icon:User},
   {id:"reports",label:"My Reports",icon:FileText},
   {id:"history",label:"Test History",icon:Clock},
+  {id:"Patientregistration",label:"Patient Registration",icon:User},
+  {id:"HomeSampleCollection",label:"HomeSampleCollection",icon:Mouse}
 ];
 
 export default function DashboardPage(){
@@ -86,6 +89,8 @@ export default function DashboardPage(){
         {view === "reports" && <ReportsList />}
         {view === "history" && <TestHistory />}
         {view === "Doctor" &&  <AddDoctors/>}
+        {view === "Patientregistration" && <Patientregistration />}
+        {view === "HomeSampleCollection" && <HomeSampleCollection/>}
       </main>
     </div>
   );
