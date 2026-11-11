@@ -4,7 +4,7 @@ import { Report } from "@/lib/models/Report";
 import { verifyToken, extractTokenFromHeader } from "@/lib/auth";
 
 // GET /api/reports/[id]
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params:{id:string}}) {
   try {
     const token = extractTokenFromHeader(req.headers.get("authorization"));
     if (!token) return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
