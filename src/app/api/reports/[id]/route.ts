@@ -25,6 +25,7 @@ export async function PATCH(req: NextRequest, {params} : {params:{id:string}}){
     if (payload.role !== "admin"){
       return NextResponse.json({success:false,message:"Admin access required"},{status:403});
     }
+    
     await connectDB();
     const body = await req.json();
     const report = await Report.findOneAndUpdate(
