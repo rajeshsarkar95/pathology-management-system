@@ -16,6 +16,7 @@ export async function DELETE(
         {status:404}
       );
     }
+    
     return NextResponse.json({success:true,message:"Doctor removed."});
   } catch (error){
     console.error("[DELETE /api/doctors/[id]]",error);
