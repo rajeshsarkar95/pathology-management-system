@@ -7,7 +7,7 @@ import { verifyToken, extractTokenFromHeader } from "@/lib/auth";
 export async function GET(req: NextRequest, { params }: { params:{id:string}}) {
   try {
     const token = extractTokenFromHeader(req.headers.get("authorization"));
-    if (!token) return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+    if (!token) return NextResponse.json({ success: false, message: "Unauthorized" },{status:401});
     verifyToken(token);
     await connectDB();
     const report = await Report.findOne({ reportId: params.id });

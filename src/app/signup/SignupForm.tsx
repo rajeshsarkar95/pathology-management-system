@@ -13,7 +13,7 @@ interface SignupData {
 export default function SignupForm(){
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { register,handleSubmit,watch,formState:{errors}} = useForm<SignupData>();
+  const {register,handleSubmit,watch,formState:{errors}} = useForm<SignupData>();
   const pwd = watch("password");
   const onSubmit = async (data:SignupData)=>{
     setLoading(true);
