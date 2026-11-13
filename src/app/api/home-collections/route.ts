@@ -5,10 +5,14 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { Document, Filter } from "mongodb";
-import { escapeRegex, getDb, nextSequence } from "@/lib/auth/mongodb";
+import { getDb } from "../../../lib/mongodb";
 import { MAX_PER_SLOT, STATUSES, parseCollection } from "../../../lib/validation";
 
 export const dynamic = "force-dynamic";
+
+function escapeRegex(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 
 // TODO: verify the session here (reuse whatever your /api/auth + middleware.ts use).
 
@@ -65,7 +69,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const seq = await nextSequence("home_collections");
+    const seqResult = await db.collection<{ _id: string; seq: number }>("counters").findOneAndUpdate(
+      { _id: "home_collections" },
+      { $inc: { seq: 1 } },
+      { upsert: true, returnDocument: "after" }
+    );
+    const seqDoc = (seqResult as unknown as { value?: { seq?: number } }).value ?? seqResult;
+    const seq = seqDoc?.seq ?? 1;
     const booking = {
       ...parsed.data,
       id: `HSC-${String(seq).padStart(6, "0")}`,

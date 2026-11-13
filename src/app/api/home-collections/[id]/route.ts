@@ -35,7 +35,7 @@ export async function GET(_req: NextRequest, { params }: Ctx) {
     const booking = await db.collection("home_collections").findOne({ id }, { projection: { _id: 0 } });
     if (!booking) return NextResponse.json({ error: "Booking not found" }, { status: 404 });
     return NextResponse.json({ booking });
-  } catch (err) {
+  } catch (err){
     console.error("GET /api/home-collections/[id]", err);
     return NextResponse.json({ error: "Failed to load booking" }, { status: 500 });
   }
