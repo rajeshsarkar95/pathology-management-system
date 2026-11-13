@@ -1,20 +1,14 @@
-// Place at: src/app/api/home-collections/route.ts   (rename to route.ts)
-//
-// GET  /api/home-collections?date=&status=&search=   -> { bookings, total }
-// POST /api/home-collections                         -> 201 { booking }   (409 if slot is full)
-
 import { NextRequest, NextResponse } from "next/server";
 import { Document, Filter } from "mongodb";
 import { getDb } from "../../../lib/mongodb";
 import { MAX_PER_SLOT, STATUSES, parseCollection } from "../../../lib/validation";
+import {IHomeCollection}  from "@/lib/models/HomeCollection"
 
 export const dynamic = "force-dynamic";
 
 function escapeRegex(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
-
-// TODO: verify the session here (reuse whatever your /api/auth + middleware.ts use).
 
 export async function GET(req: NextRequest) {
   try {
@@ -54,13 +48,11 @@ export async function POST(req: NextRequest) {
     }
 
     const db = await getDb();
-    const col = db.collection("home_collections");
-
-    // Slot capacity check (fine for a single lab; for very high traffic make this atomic)
+    const col = db.collection("home_collections")  
     const taken = await col.countDocuments({
       date: parsed.data.date,
       slot: parsed.data.slot,
-      status: { $ne: "Cancelled" },
+      status: { $ne: "Cancelled"},
     });
     if (taken >= MAX_PER_SLOT) {
       return NextResponse.json(
