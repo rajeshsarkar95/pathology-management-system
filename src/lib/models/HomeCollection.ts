@@ -50,8 +50,8 @@ const HomeCollectionSchema = new Schema<IHomeCollection>(
   {
     collection: "home_collections",
     versionKey: false,
-    toJSON: {
-      transform: (_doc, ret: Record<string, unknown>) => {
+    toJSON:{
+      transform: (_doc,ret: Record<string, unknown>) => {
         delete ret._id;
         return ret;
       },
