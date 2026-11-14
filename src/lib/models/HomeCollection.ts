@@ -26,7 +26,7 @@ export interface IHomeCollection {
 
 const HomeCollectionSchema = new Schema<IHomeCollection>(
   {
-    id: { type: String, required: true, unique: true, index: true },
+    id: { type: String, required:true,unique:true,index:true},
     patientId: { type: String, default: "", index: true },
     patientName: { type: String, required: true, trim: true, maxlength: 200 },
     phone: { type: String, required: true, match: /^[6-9]\d{9}$/ },
