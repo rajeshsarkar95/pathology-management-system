@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
     const date = searchParams.get("date") || "";
     const status = searchParams.get("status") || "";
     const search = (searchParams.get("search") || "").trim();
-
+    
     const filter: Filter<Document> = {};
     if (/^\d{4}-\d{2}-\d{2}$/.test(date)) filter.date = date;
     if ((STATUSES as readonly string[]).includes(status)) filter.status = status;
@@ -27,6 +27,7 @@ export async function GET(req: NextRequest) {
 
     const db = await getDb();
     const col = db.collection("home_collections");
+
     const [bookings, total] = await Promise.all([
       col.find(filter, { projection: { _id: 0 } }).sort({ date: 1, slot: 1 }).limit(500).toArray(),
       col.countDocuments(filter),
