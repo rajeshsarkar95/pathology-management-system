@@ -78,10 +78,8 @@ export async function nextPatientId(): Promise<string> {
   const seq = await nextSequence("patients");
   return `PAT-${String(seq).padStart(6, "0")}`;
 }
-
 const Patient: Model<IPationt> =
-  (mongoose.models.Patient as Model<IPationt>) || mongoose.model<IPationt>("Patient", PatientSchema);
- 
+  (mongoose.models.Patient as Model<IPationt>) || mongoose.model<IPationt>("Patient", PatientSchema)
 export default Patient;
 
 
