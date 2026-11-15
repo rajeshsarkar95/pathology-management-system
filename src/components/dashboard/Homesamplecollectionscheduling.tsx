@@ -199,7 +199,7 @@ function StatCard({ label, value, tone }: { label: string; value: number; tone: 
   );
 }
 
-export default function HomeSampleCollection() {
+export default function HomeSampleCollection(){
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [registered, setRegistered] = useState<RegisteredPatient[]>([]);
   const [hydrated, setHydrated] = useState(false);
