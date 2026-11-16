@@ -26,6 +26,7 @@ export async function GET(req: NextRequest) {
     }
 
     const db = await getDb();
+    
     const col = db.collection("home_collections");
 
     const [bookings, total] = await Promise.all([

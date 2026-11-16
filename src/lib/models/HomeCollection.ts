@@ -26,9 +26,9 @@ export interface IHomeCollection {
 
 const HomeCollectionSchema = new Schema<IHomeCollection>(
   {
-    id: { type: String, required:true,unique:true,index:true},
-    patientId: { type: String, default: "", index: true },
-    patientName: { type: String, required: true, trim: true, maxlength: 200 },
+    id: {type:String,required:true,unique:true,index:true},
+    patientId: {type:String,default:"",index:true},
+    patientName: {type: String,required:true,trim:true,maxlength:200},
     phone: { type: String, required: true, match: /^[6-9]\d{9}$/ },
     address: { type: String, required: true, trim: true, maxlength: 300 },
     city: { type: String, required: true, trim: true, maxlength: 100 },
@@ -63,7 +63,7 @@ const HomeCollectionSchema = new Schema<IHomeCollection>(
 HomeCollectionSchema.index({ date: 1, slot: 1, status: 1 });
 HomeCollectionSchema.index({ status: 1, date: 1 });
 
-export async function nextBookingId(): Promise<string> {
+export async function nextBookingId(): Promise<string>{
   const seq = await nextSequence("home_collections");
   return `HSC-${String(seq).padStart(6, "0")}`;
 }
