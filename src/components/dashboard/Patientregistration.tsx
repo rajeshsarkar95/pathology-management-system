@@ -60,7 +60,7 @@ function nextPatientId(patients: Patient[]): string {
   return `PAT-${String(max + 1).padStart(6, "0")}`;
 }
 
-function calcAge(dob: string): number | null {
+function calcAge(dob: string):number | null {
   if (!dob) return null;
   const birth = new Date(dob);
   if (Number.isNaN(birth.getTime())) return null;
@@ -71,14 +71,12 @@ function calcAge(dob: string): number | null {
   return age;
 }
 
-function validate(v: FormValues): FormErrors {
+function validate(v: FormValues): FormErrors{
   const e: FormErrors = {};
   if (!v.firstName.trim()) e.firstName = "First name is required";
   if (!v.lastName.trim()) e.lastName = "Last name is required";
-
   if (!v.dob) e.dob = "Date of birth is required";
   else if (new Date(v.dob) > new Date()) e.dob = "Date cannot be in the future";
-
   if (!/^[6-9]\d{9}$/.test(v.phone)) e.phone = "Enter a valid 10-digit mobile number";
   if (v.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)) e.email = "Enter a valid email";
   if (v.pincode && !/^\d{6}$/.test(v.pincode)) e.pincode = "Pincode must be 6 digits";
@@ -147,7 +145,7 @@ function SectionTitle({ children }: { children: ReactNode }) {
 }
 
 
-export default function PatientRegistration() {
+export default function PatientRegistration(){
   const [patients, setPatients] = useState<Patient[]>([]);
   const [hydrated, setHydrated] = useState(false);
   const [editing, setEditing] = useState<Patient | null>(null);
@@ -156,7 +154,7 @@ export default function PatientRegistration() {
   const [query, setQuery] = useState("");
   const [toast, setToast] = useState("");
 
-  useEffect(() => {
+  useEffect(() =>{
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setPatients(JSON.parse(raw) as Patient[]);
@@ -167,15 +165,14 @@ export default function PatientRegistration() {
 
   useEffect(() => {
     if (hydrated) localStorage.setItem(STORAGE_KEY, JSON.stringify(patients));
-  }, [patients, hydrated]);
-
-  useEffect(() => {
+  },[patients,hydrated]);
+  useEffect(()=>{
     if (!toast) return;
-    const t = setTimeout(() => setToast(""), 3000);
+    const t = setTimeout(() => setToast(""),3000);
     return () => clearTimeout(t);
   }, [toast]);
 
-  const handleChange = (e: ChangeEv) => {
+  const handleChange = (e:ChangeEv) => {
     const { name, value } = e.target;
     const next = ["phone", "emergencyPhone", "pincode"].includes(name)
       ? value.replace(/\D/g, "") 
@@ -190,18 +187,17 @@ export default function PatientRegistration() {
     setEditing(null);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e:FormEvent)=>{
     e.preventDefault();
     const found = validate(values);
     setErrors(found);
     if (Object.keys(found).length > 0) return;
-
     if (editing) {
       setPatients((list) => list.map((p) => (p.id === editing.id ? { ...p, ...values } : p)));
       setToast(`Patient ${editing.id} updated`);
     } else {
       const id = nextPatientId(patients);
-      setPatients((list) => [{ ...values, id, registeredAt: new Date().toISOString() }, ...list]);
+      setPatients((list)=>[{...values,id,registeredAt: new Date().toISOString()},...list]);
       setToast(`Patient registered with ID ${id}`);
     }
     resetForm();
@@ -212,10 +208,10 @@ export default function PatientRegistration() {
     setEditing(p);
     setValues(rest);
     setErrors({});
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({top:0,behavior:"smooth"});
   };
 
-  const handleDelete = (p: Patient) => {
+  const handleDelete = (p: Patient)=>{
     if (!window.confirm(`Delete ${p.firstName} ${p.lastName} (${p.id})?`)) return;
     setPatients((list) => list.filter((x) => x.id !== p.id));
     if (editing?.id === p.id) resetForm();
@@ -224,16 +220,16 @@ export default function PatientRegistration() {
 
   const age = calcAge(values.dob);
 
-  const filtered = useMemo(() => {
+  const filtered = useMemo(()=>{
     const q = query.trim().toLowerCase();
     if (!q) return patients;
     return patients.filter(
-      (p) =>
+      (p)=>
         p.id.toLowerCase().includes(q) ||
         `${p.firstName} ${p.lastName}`.toLowerCase().includes(q) ||
         p.phone.includes(q)
     );
-  }, [patients, query]);
+  }, [patients,query]);
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-6 p-6">
       <header>
