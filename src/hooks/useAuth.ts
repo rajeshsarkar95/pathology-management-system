@@ -12,6 +12,7 @@ export interface AuthUser {
 }
 
 export function useAuth(requireRole?:"patient" | "admin"){
+  
   const router = useRouter();
   const [user,setUser] = useState<AuthUser | null>(null);
   const [token,setToken] = useState<string | null>(null);
@@ -33,7 +34,7 @@ export function useAuth(requireRole?:"patient" | "admin"){
     setToken(storedToken);
     setLoading(false);
   }, [router, requireRole]);
-
+  
   const logout = ()=>{
     localStorage.removeItem("user");
     localStorage.removeItem("token");
