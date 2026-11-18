@@ -30,12 +30,12 @@ interface Doctor {
 }
 
 type WeekDay = "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";
+
 type DoctorFormData = Omit<Doctor, "id" | "avatarColor">;
 type FormErrors = Partial<Record<keyof DoctorFormData,string>>;
 type AvatarColor = "blue" | "violet" | "emerald" | "rose" | "amber";
 
 const API_URL = "/api/doctors";
-
 const SPECIALTIES: Specialty[] = [
   "Cardiology", "Dermatology", "General Practice", "Gynecology",
   "Neurology", "Oncology", "Orthopedics", "Pediatrics", "Psychiatry","Radiology",
@@ -169,6 +169,7 @@ const Field:React.FC<FieldProps> = ({label,error,children,className = "" })=>(
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>{
   hasError?:boolean;
 }
+
 const Input:React.FC<InputProps> = ({hasError,className = "",...props})=>(
   <input
     {...props}
@@ -349,8 +350,9 @@ function AddDoctors() {
       setIsLoading(false);
     }
   };
+  
 
-  useEffect(() => {
+  useEffect(()=>{
     fetchDoctors();
   }, []);
 
@@ -358,9 +360,9 @@ function AddDoctors() {
     setIsSaving(true);
     setApiError(null);
     try {
-      const res = await fetch(API_URL, {
+      const res = await fetch(API_URL,{
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
       });
       const json: ApiResponse<Doctor> = await res.json();
@@ -371,7 +373,7 @@ function AddDoctors() {
       setFormData(EMPTY_FORM);
       setErrors({});
       setIsModalOpen(false);
-    } catch (err: unknown) {
+    } catch (err: unknown){
       setApiError(getErrorMessage(err) || "Failed to add doctor.");
     } finally {
       setIsSaving(false);
@@ -401,12 +403,12 @@ function AddDoctors() {
     setErrors((p) => ({ ...p, [name]: undefined }));
   };
 
-  const handleDayToggle = (day: WeekDay) => {
+  const handleDayToggle = (day: WeekDay)=>{
     setFormData((p) => ({
       ...p,
       availableDays: p.availableDays.includes(day)
         ? p.availableDays.filter((d) => d !== day)
-        : [...p.availableDays, day],
+        : [...p.availableDays,day],
     }));
     setErrors((p) => ({...p,availableDays:undefined}));
   };
