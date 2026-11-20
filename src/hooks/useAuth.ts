@@ -25,21 +25,24 @@ export function useAuth(requireRole?:"patient" | "admin"){
       router.push("/login");
       return;
     }
+    
     const parsedUser:AuthUser = JSON.parse(storedUser);
     if (requireRole && parsedUser.role !== requireRole){
       router.push(parsedUser.role === "admin" ? "/admin" : "/dashboard");
       return;
     }
+
     setUser(parsedUser);
     setToken(storedToken);
     setLoading(false);
   }, [router, requireRole]);
-  
+
   const logout = ()=>{
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     router.push("/");
   };
+
   const authHeaders = token
     ? {Authorization: `Bearer ${token}`}
     : {};

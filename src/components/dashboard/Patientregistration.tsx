@@ -22,7 +22,7 @@ interface Patient {
   emergencyPhone: string;
   allergies: string;
   notes: string;
-  registeredAt: string; // ISO date
+  registeredAt: string; 
 }
 
 type FormValues = Omit<Patient, "id" | "registeredAt">;
@@ -166,6 +166,7 @@ export default function PatientRegistration(){
   useEffect(() => {
     if (hydrated) localStorage.setItem(STORAGE_KEY, JSON.stringify(patients));
   },[patients,hydrated]);
+  
   useEffect(()=>{
     if (!toast) return;
     const t = setTimeout(() => setToast(""),3000);

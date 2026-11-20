@@ -10,6 +10,7 @@ import TestHistory from "@/components/dashboard/TestHistory";
 import AddDoctors  from "@/components/dashboard/AddDoctors";
 import Patientregistration from "@/components/dashboard/Patientregistration";
 import HomeSampleCollection from "@/components/dashboard/Homesamplecollectionscheduling";
+
 type DashView = "overview" | "reports" | "history" | "Doctor" | "Patientregistration" | "HomeSampleCollection";
 
 const sidebarItems: {id:DashView;label:string;icon:React.ElementType}[] = [

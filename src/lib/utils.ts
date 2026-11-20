@@ -6,6 +6,7 @@ import type { ReportStatus } from "@/types";
 export function cn(...inputs:ClassValue[]){
   return twMerge(clsx(inputs));
 }
+
 export function formatDate(dateStr:string,fmt = "dd MMM yyyy"):string{
   try {
     return format(parseISO(dateStr),fmt);
@@ -13,6 +14,7 @@ export function formatDate(dateStr:string,fmt = "dd MMM yyyy"):string{
     return dateStr;
   }
 }
+
 export function formatCurrency(amount:number):string{
   return new Intl.NumberFormat("en-IN",{
     style:"currency",
@@ -20,6 +22,7 @@ export function formatCurrency(amount:number):string{
     maximumFractionDigits:0,
   }).format(amount);
 }
+
 export function getStatusConfig(status:ReportStatus){
   const configs = {
     completed:{
@@ -37,6 +40,7 @@ export function getStatusConfig(status:ReportStatus){
   };
   return configs[status];
 }
+
 export function getParamStatusColor(status: "normal" | "high" | "low"){
   const colors = {
     normal:{text:"text-emerald-600",bg:"bg-emerald-50"},

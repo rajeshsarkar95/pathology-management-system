@@ -21,6 +21,7 @@ interface Booking {
   status: Status;
   createdAt: string;
 }
+
 type FormValues = Omit<Booking, "id" | "status" | "createdAt">;
 type FormErrors = Partial<Record<keyof FormValues, string>>;
 type ChangeEv = ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
@@ -108,7 +109,7 @@ function nextBookingId(bookings: Booking[]): string {
     const n = parseInt(b.id.replace("HSC-", ""), 10);
     return Number.isNaN(n) ? m : Math.max(m, n);
   }, 0);
-  return `HSC-${String(max + 1).padStart(6, "0")}`;
+  return `HSC-${String(max + 1).padStart(6,"0")}`;
 }
 
 function validate(v: FormValues, today: string): FormErrors {

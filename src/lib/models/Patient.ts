@@ -23,6 +23,7 @@ export interface IPationt {
     notes: string;
     registeredAt: Date;
 }
+
 const PatientSchema = new Schema<IPationt>(
     {
         id: { type: String, required: true, unique: true, index: true },
@@ -44,6 +45,7 @@ const PatientSchema = new Schema<IPationt>(
         notes: { type: String, trim: true, default: "", maxlength: 300 },
         registeredAt: { type: Date, default: Date.now },
     },
+
     {
         collection:"patients",
         versionKey:false,
@@ -61,7 +63,9 @@ PatientSchema.index({ registeredAt: -1 });
 
 // Virtual: full name and age (not stored)
 PatientSchema.virtual("fullName").get(function(this:IPationt){
+    
     return `${this.firstName} ${this.lastName}`.trim();
+
 })
 
 PatientSchema.virtual("age").get(function (this:IPationt){
@@ -74,10 +78,11 @@ PatientSchema.virtual("age").get(function (this:IPationt){
     return age;
 })
 
-export async function nextPatientId(): Promise<string> {
+export async function nextPatientId(): Promise<string>{
   const seq = await nextSequence("patients");
   return `PAT-${String(seq).padStart(6, "0")}`;
 }
+
 const Patient: Model<IPationt> =
   (mongoose.models.Patient as Model<IPationt>) || mongoose.model<IPationt>("Patient", PatientSchema)
 export default Patient;

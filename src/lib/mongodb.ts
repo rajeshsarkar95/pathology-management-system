@@ -8,13 +8,18 @@ function getClient(): Promise<MongoClient> {
   if (!uri) throw new Error("MONGODB_URI is not set in .env.local");
   if (!global._mongoClientPromise) {
     global._mongoClientPromise = new MongoClient(uri).connect();
+
   }
+
   return global._mongoClientPromise;
+
 }
-export async function getDb(): Promise<Db> {
+
+export async function getDb(): Promise<Db>{
   const client = await getClient();
   return client.db(process.env.MONGODB_DB || "lms");
 }
+
 export async function nextSequence(name: string): Promise<number> {
   const db = await getDb();
   const doc = await db
