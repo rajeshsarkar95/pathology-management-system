@@ -1,6 +1,4 @@
 "use client";
-
-
 import { ChangeEvent, FormEvent, ReactNode, useEffect, useMemo, useState } from "react";
 
 type Status = "Scheduled" | "On the way" | "Collected" | "Cancelled";
@@ -23,7 +21,6 @@ interface Booking {
   status: Status;
   createdAt: string;
 }
-
 type FormValues = Omit<Booking, "id" | "status" | "createdAt">;
 type FormErrors = Partial<Record<keyof FormValues, string>>;
 type ChangeEv = ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
@@ -300,33 +297,49 @@ export default function HomeSampleCollection(){
     setErrors(found);
     if (Object.keys(found).length > 0) return;
 
-    if (editing) {
+    if (editing){
       setBookings((list) => list.map((b) => (b.id === editing.id ? { ...b, ...values } : b)));
       setToast(`Booking ${editing.id} updated`);
+
     } else {
       const id = nextBookingId(bookings);
+
       setBookings((list) => [
-        { ...values, id, status: "Scheduled", createdAt: new Date().toISOString() },
+
+        { ...values, id, status: "Scheduled", createdAt: new Date().toISOString()},
         ...list,
+
       ]);
+
       setToast(`Collection scheduled: ${id}`);
     }
+
     resetForm();
+
   };
 
   const handleEdit = (b: Booking) => {
     const { id, status, createdAt, ...rest } = b;
+
     setEditing(b);
+
     setValues(rest);
+
     setErrors({});
+
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   /* ---------- status actions ---------- */
+
   const setStatus = (b: Booking, status: Status) => {
+
     setBookings((list) => list.map((x) => (x.id === b.id ? { ...x, status } : x)));
+
     setToast(`${b.id} marked as ${status}`);
+
     if (editing?.id === b.id) resetForm();
+
   };
 
   const assign = (b: Booking, phlebotomist: string) => {
